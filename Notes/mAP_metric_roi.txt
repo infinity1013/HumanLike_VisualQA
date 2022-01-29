@@ -1,0 +1,18 @@
+The Mean Average Precision is commonly used in the domains of Information Retrieval and Object Detection. Both these domains have different ways of calculating mAP. We have atleast 2 other variables which determine the values of Precision and Recall, they are the IOU and the Confidence thresholds.
+
+The IOU is a simple geometric metric, which we can easily standardise, for example the PASCAL VOC challange evaluates mAP based on 50% IOU, whereas the COCO Challenge goes a step further and evaluates mAP at various threshold ranging from 5% to 95%. The confidence factor on the other hand varies across models, 50% confidence in my model design might probably be equivalent to an 80% confidence in someone else’s model design, which would vary the precision recall curve shape.
+
+The paper recommends that we calculate a measure called AP ie. the Average Precision
+
+For a given task and class, the precision/recall curve is computed from a method’s ranked output. Recall is defined as the proportion of all positive examples ranked above a given rank. Precision is the proportion of all examples above that rank which are from the positive class. The AP summarises
+the shape of the precision/recall curve, and is defined as the mean precision at a set of eleven equally spaced recall levels [0,0.1,...,1]:
+
+This means that we chose 11 different confidence thresholds(which determine the “rank”). The thresholds should be such that the Recall at those confidence values is 0, 0.1, 0.2, 0.3, … , 0.9 and 1.0. The AP is now defined as the mean of the Precision values at these chosen 11 Recall values. This results in the mAP bieng an overall view of the whole precision recall curve.
+
+The paper further gets into detail of calculating the Precision used in the above calculation.
+The precision at each recall level r is interpolated by taking the maximum precision measured for a method for which the corresponding recall exceeds r:
+Basically we use the maximum precision for a given recall value.
+
+The mAP hence is the Mean of all the Average Precision values across all your classes as measured above.
+
+Depending on how the classes are distributed in the training data, the Average Precision values might vary from very high for some classes(which had good training data) to very low(for classes with less/bad data). So your mAP may be moderate, but your model might be really good for certain classes and really bad for certain classes. Hence it is advisable to have a look at individual class Average Precisions while analysing your model results. These values might also serve as an indicator to add more training samples.

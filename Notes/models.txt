@@ -1,0 +1,26 @@
+Recent studies on machine reading comprehension have focused on text-level understanding but have not yet reached the level of human understanding of the visual layout and content of real-world documents.  Machine Reading Comprehension is one of the key problems in Natural Language Understanding, where the task is to read and comprehend a given text passage, and then answer questions based on it.
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Text Visual Question Answering( TextVQA)
+Description- TextVQA requires reading and understanding text in images to answer a question. TextVQA is based on custom pairwise fusion mechanisms between a pair of two modalities and are restricted to a single prediction step by casting TextVQA as a classification task.
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+T5
+T5 is used to reframe all NLP tasks into a unified text-to-text-format where the input and output are always text strings, in contrast to BERT-style models that can only output either a class label or a span of the input.  Text-to-text framework allows us to use the same model, loss function, and hyperparameters on any NLP task, including machine translation, document summarization, question answering, and classification tasks (e.g., sentiment analysis). We can even apply T5 to regression tasks by training it to predict the string representation of a number instead of the number itself.
+
+result --> To generate realistic text, T5 relies on a fill-in-the-blanks type task with which it is familiar due to the pre-training. The model also adjusts its predictions based on the requested size of the missing text.
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+BART
+BART is a denoising autoencoder for pretraining sequence-to-sequence models. BART is trained by corrupting text with an arbitrary noising function, and learning a model to reconstruct the original text. It uses a standard Tranformer-based neural machine translation architecture . It evaluate a number of noising approaches, finding the best performance by both randomly shuffling the order of the original sentences and using a novel in-filling scheme, where spans of text are replaced with a single mask token.
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Technique- Multimodal Multi-Copy Mesh(M4C)
+
+Description-  Multimodal Multi-Copy Mesh is a approach for the TextVQA task based on a pointer-augmented multimodal transformer architecture with iterative answer prediction. Given a question and an image as inputs, we extract feature representations from three modalities – the question, the visual objects in the image, and the text present in the image. These three modalities are represented respectively as a list of question words features, a list of visual object features from an off-the-shelf object detector, and a list of OCR token features based on an external OCR system. Model projects the feature representations of entities (question words, detected objects, and detected OCR tokens) from the three modalities as vectors in a learned common embedding space. Then, a multi-layer transformer is applied on the list of all projected features, enriching their representations with intra- and intermodality context. Model learns to predict the answer through iterative decoding accompanied by a dynamic pointer network. During decoding, it feeds in the previous output to predict the next answer component in an autoregressive manner. At each step, it either copies an OCR token from the image, or selects a word from its fixed answer vocabulary
+
+Result- M4C model answer beyond a single classification step and predicts it through pointer augmented multi-step decoder

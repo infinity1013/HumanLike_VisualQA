@@ -1,0 +1,26 @@
+OCR
+Description- OCR systems transform a two-dimensional image of text, that could contain machine printed or handwritten text from its image representation into machine-readable text.Optical Character Recognition remains a challenging problem when text occurs in unconstrained environments, like natural scenes, due to geometrical distortions, complex backgrounds, and diverse fonts. OCR as a process generally consists of several sub-processes to perform as accurately as possible. The subprocesses are Preprocessing of the Image, Text Localization, Character Segmentation, Character Recognition, Post Processing.
+
+Result- Identify and capture all the unique words using different languages from written text characters
+
+-------------------------------------------------------------------------------------------------------------------------
+
+Tesseract
+Description-  Tesseract is an open-source OCR engine, available under the Apache 2.0 license. It can be used directly, or (for programmers) using an API to extract printed text from images. It supports a wide variety of languages. Tesseract is compatible with many programming languages and frameworks through wrappers.
+
+Result- It is used with the existing layout analysis to recognize text within a large document. It is also used in conjunction with an external text detector to recognize text from an image of a single text line.
+
+----------------------------------------------------------------------------------------------------------------------
+
+R-CNN
+Description - It is used to bypass the problem of selecting a huge number of regions. It uses selective search to extract just 2000 regions from the image named as region proposals. Therefore, now, instead of trying to classify a huge number of regions, it just work with 2000 regions. These 2000 region proposals are generated using the selective search algorithm. In addition to predicting the presence of an object within the region proposals, the algorithm also predicts four values which are offset values to increase the precision of the bounding box. 
+
+Result- 1)R-CNN takes a huge amount of time to train the network as you would have to classify 2000 region proposals per image. 
+2) The selective search algorithm is a fixed algorithm. Therefore, no learning is happening at that stage. This could lead to the generation of bad candidate region proposals.
+
+-----------------------------------------------------------------------------------------------------------------------
+
+Faster R-CNN
+Description- The approach is similar to the R-CNN algorithm. But, instead of feeding the region proposals to the CNN, we feed the input image to the CNN to generate a convolutional feature map. From the convolutional feature map, we identify the region of proposals and warp them into squares and by using a RoI pooling layer we reshape them into a fixed size so that it can be fed into a fully connected layer. From the RoI feature vector, we use a softmax layer to predict the class of the proposed region and also the offset values for the bounding box.
+
+Result- Fast R-CNN is faster than R-CNN. It's because we don’t have to feed 2000 region proposals to the convolutional neural network every time. Instead, the convolution operation is done only once per image and a feature map is generated from it.

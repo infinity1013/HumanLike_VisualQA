@@ -1,0 +1,46 @@
+Run Length Smoothing Algorithm (RLSA)
+The Run Length Smoothing Algorithm (RLSA) is a method that can be used for Block segmentation and text discrimination. The method developed for the Document Analysis System consists of two steps. First, a segmentation procedure subdivides the area of a document into regions (blocks), each of which should contain only one type of data (text, graphic, halftone image, etc.). Next, some basic features of these blocks are calculated.
+
+
+The basic RLSA is applied to a binary sequence in which white pixels are represented by 0’s and black pixels by 1’s. The algorithm transforms a binary sequence x into an output sequence y according to the following rules:
+
+1. 0’s in x are changed to 1’s in y if the number of adjacent 0’s is less than or equal to a predefined limit C.
+2. 1’s in x are unchanged in y .
+
+For example, with C = 4 the sequence x is mapped into y as follows:
+x : 0 0 0 1 0 0 0 0 0 1 0 1 0 0 0 0 1 0 0 0 0 0 0 0 1 1 0 0 0
+y : 1 1 1 1 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 1 1 1 1 1
+
+When applied to pattern arrays, the RLSA has the effect of linking together neighboring black areas that are separated by less than C pixels. With an appropriate choice of C, the linked areas will be regions of a common data type.
+
+
+The RLSA is applied row-by-row as well as column-by-column to a document, yielding two distinct bit-maps. Because spacings of document components tend to differ horizontally and vertically, different values of C are used for row and column processing. Bit-maps are then combined in a logical AND operation. Additional horizontal smoothing using the RLSA produces the final segmentation result.
+
+
+To provide identification for subsequent processing, a unique label is assigned to each block. Simultaneously with block labeling, the following measurements are taken:
+-> Total number of black pixels in a segmented block (BC).
+-> Minimum x-y coordinates of a block and its x, y lengths (Xmin, Ymin, delX, delY).
+-> Total number of black pixels in original data from the block (DC).
+-> Horizontal white-black transitions of original data (TC).
+
+These measurements are stored in a table and are used to calculate the following features:
+-> The height of each block segment: H = delY.
+-> The eccentricity of the rectangle surrounding the block: E = delX/delY.
+-> The ratio of the number of block pixels to the area of the surrounding rectangle: S=BC/(delX * delY). If S is close to one, the block segment is approximately rectangular.
+-> The mean horizontal length of the black runs of the original data from each block: Rm=DC/TC.
+
+The mean value of block height Hm, and the block mean black pixel run length Rm, for the text cluster may vary for different types of documents, depending on character size and font. Furthermore, the text cluster’s standard deviations sigma(Hm) and sigma(Rm) may also vary depending on whether a document is in a single font or multiple fonts and character sizes. To permit self-adjustment of the decision boundaries for text discrimination, estimates are calculate for the mean values Hm and Rm of blocks from a tightly defined text region of the R-H plane. Additional heuristic rules are applied to confirm that each such block is likely to be text before it is included in the cluster. The members of the cluster are then used to estimate new bounds on the features to detect additional text blocks. Finally, a variable, linear, separable classification scheme assigns the following four classes to the blocks:
+
+Class 1 Text:
+R <> C_21 Rm and
+H <> I/C_23 and
+H > C_22 Hm.
+
+Class 4 Vertical solid black lines:
+E <> C_22 Hm.
+
+Values have been assigned to the parameters based on several training documents. With C_21=3, C_22=3, and C_23=5, the outlined method has been tested on a number of test documents with satisfactory performance.
+
+There are certain limitations to the block segmentation and text discrimination method described so far. On some documents, text lines are linked together by the block segmentation algorithm due to small line-to-line spacing, and thus are assigned to class 3. A line of characters exceeding 3 times H, (with C_22=3), such as a title or heading in a document, is assigned to class 3. An isolated line of text printed vertically, e.g., a text description of a diagram along the vertical axis, may be classified as a number of small text blocks, or else as a class 3 block.
+
+Consequently, in order to further classify different data types within class 3, a second discrimination based on shape factors is used. The method uses measurements of border-to-border distance within an arbitrary pattern. These measurements can be used to calculate meaningful features like the “line-shapeness” or “compactness” of objects within binary images.

@@ -1,0 +1,17 @@
+CIDEr
+Description- It's goal is to automatically evaluate for image, how well a candidate sentence matches the consensus of a set of image descriptions.
+
+------------------------------------------------------------------------------------------------------------------------
+
+BLEU
+Description- BLEU is a precision-based evaluation metric which considers exact n-gram matches. For a given value of n, the precision is computed as the fraction of n-grams in the generated hypothesis which match some n-gram in the reference hypothesis. The final BLEU score is computed as the geometric mean of the n-gram precisions obtained by varying n from 1 to N where N is typically 3 or 4.
+
+-------------------------------------------------------------------------------------------------------------------------
+
+METEOR
+Description-It uses both precision and recall, i.e., it computes the fraction of the hypothesis which matches the reference (precision) as well as the fraction of the reference which is contained in the hypothesis (recall). METEOR also considers matches with stemmed words, synonyms, and paraphrases. It also gives different weightage to matches corresponding to function words and matches corresponding to content words. The final score is the harmonic mean of the precision and recall calculated based on these four matches. Additionally, it also includes a fragmentation penalty to account for gaps and differences in word order.
+
+----------------------------------------------------------------------------------------------------------------------------
+
+ROUGE-L
+Description- ROUGE-L is F-measure based on the Longest Common Subsequence (LCS) between a candidate and target sentence. Given two sequences, a common subsequence is the set of words which appear in both the sequences in the same order but unlike n-grams the common subsequence does not need to be contiguous.

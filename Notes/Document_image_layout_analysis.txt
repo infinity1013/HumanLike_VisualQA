@@ -1,0 +1,75 @@
+Many methods have been proposed for document image layout analysis.
+They can be classified into three different groups:
+(i) region or block based classification methods- Segment a document image page into document zones, and then classify them
+into meaningful semantic classes
+(ii) pixel based classification methods- Takes each pixel individually into account and use a classifier to generate a labelled image with regions hypotheses. 
+(iii) connected component classification methods- Use local information to create object hypotheses that are further inspected, combined and refined, and finally classified.
+
+When it comes to image classification, convolutional neural networks (CNNs) ) have been widely adopted including document analysis. It inherent very intense computational burden usually limits the cost-benefit of using them in document storage and retrieval applications where low memory and fast processing are vital.
+
+Block based classification method that consists of three steps: 
+i) pre-process a document input image and segment it into its blocks of content 
+ii) use their vertical and horizontal projections to train a CNN model for multi-class classification considering text,
+image and table classes 
+iii) detect new documents layout using a pipeline including the trained CNN model.
+
+-------------------------------------------------------------------------------------------------------------
+
+
+Methodology
+
+1) Segmenting blocks of content in the document image
+i) Single pages are converted into gray-scale images.
+ii) Then processed by the nonlinear, run-length smoothing algorithm to detect regions with high chance of containing information. The algorithm is applied in both horizontal and vertical directions and the resulting binary images are combined using the operator AND.
+iii) Next, a 3 × 3 dilation operation is performed two times over the resulting binary image to create blocks of content.
+iv) Finally, we iteratively detect the largest connected component in the binary image and denote it as a block of content. The detection process continues until no more connected components are found in the image. 
+
+
+By using the regular features of text lines, a linear adaptive classification scheme discriminates text regions from others. The second technique studied is an adaptive approach to the recognition of the hundreds of font styles and sizes that can occur on printed documents. A preclassifier is constructed during the input process and used to speed up a well-known pattern-matching method for clustering characters from an arbitrary print source into a small sample of prototypes.
+
+
+Example of Dilation operation:
+ 
+Suppose A is the following 11 x 11 matrix and B is the following 3 x 3 matrix:
+
+    0 0 0 0 0 0 0 0 0 0 0
+    0 1 1 1 1 0 0 1 1 1 0   
+    0 1 1 1 1 0 0 1 1 1 0  
+    0 1 1 1 1 1 1 1 1 1 0
+    0 1 1 1 1 1 1 1 1 1 0              1 1 1
+    0 1 1 0 0 0 1 1 1 1 0              1 1 1
+    0 1 1 0 0 0 1 1 1 1 0              1 1 1
+    0 1 1 0 0 0 1 1 1 1 0       
+    0 1 1 1 1 1 1 1 0 0 0   
+    0 1 1 1 1 1 1 1 0 0 0   
+    0 0 0 0 0 0 0 0 0 0 0
+
+For each pixel in A that has a value of 1, superimpose B, with the center of B aligned with the corresponding pixel in A.
+Each pixel of every superimposed B is included in the dilation of A by B.
+
+The dilation of A by B is given by this 11 x 11 matrix.
+
+    1 1 1 1 1 1 1 1 1 1 1
+    1 1 1 1 1 1 1 1 1 1 1   
+    1 1 1 1 1 1 1 1 1 1 1  
+    1 1 1 1 1 1 1 1 1 1 1
+    1 1 1 1 1 1 1 1 1 1 1
+    1 1 1 1 1 1 1 1 1 1 1
+    1 1 1 1 0 1 1 1 1 1 1
+    1 1 1 1 1 1 1 1 1 1 1       
+    1 1 1 1 1 1 1 1 1 1 1   
+    1 1 1 1 1 1 1 1 1 0 0   
+    1 1 1 1 1 1 1 1 1 0 0
+
+
+2) Classifying blocks of content in the document image
+Use a CNN model to classify them into three different classes: text, tables and images.
+Two different CNN architectures: a bi-dimensional approach commonly used in different computer vision problems, used as a baseline; and the herein proposed fast one-dimensional architecture that uses onedimension projections to deliver very similar results with much less data usage and processing time.
+
+fast 1D CNN based classification
+One-dimensional CNN architecture that uses image tiles vertical and horizontal projections to classify blocks of content. Text, table and image tiles have very different and highly discriminative signatures for such projections.
+text tiles usually have a squared-signal-like shape in the vertical projection, due to text lines, and a roughly constant-signallike shape in the horizontal projection
+table tiles have also a squared-signal-like shape in the vertical projection, but a roughly squared-signal-like shape also in the horizontal projection, due to columns organization
+figures do not hold any special pattern in both horizontal and vertical projections.
+
+

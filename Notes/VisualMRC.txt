@@ -1,0 +1,46 @@
+VisualMRC(visual machine reading comprehension dataset) wherein given a question and a document image, a machine reads and comprehends texts in the image to answer the question in natural language. 
+
+current studies in MRC almost exclusively focus on text-level understanding, while neglecting the visual layout and content (text appearance,tables, charts, etc.) of the documents.
+
+VisualMRC dataset provides regions-of-interest (ROIs) with semantic classes in addition to QA pairs and document images.
+
+TASK 1 (End-to-end VisualMRC). Given a question q and a
+document image I, a model generates an answer a
+
+SUBTASK 1 (Region-Of-Interest (ROI) detection). Given an
+image I, a model detects a set of ROIs. Each ROI ri consists
+of a bounding box bi and a semantic class label li
+.
+SUBTASK 2 (OCR). Given a ROI ri
+, a model detects a set
+of word objects within the region. Each word object consists
+of a bounding box bi,j and a form wi,j .
+
+
+We defined content that is suitable as a document image as follows.
+(i) No handwritten text is allowed: only machine-printed
+text. (ii) The content is preferred to contain both pictures
+and texts, but this is not strictly required. (iii) The content must contain a minimum of three natural language sentences, preferably no more than 2-3 paragraphs. (iv) The
+content has to contain information at least two of the classes
+described in the next subsection.
+Ground-truth ROI annotation. 45 crowdworkers were
+asked to indicate specific objects (ROI ri
+in SUBTASK 1) in
+the given image I by annotating bounding boxes bi around
+the objects and classifying them into nine classes li
+. Figure 2
+shows a screenshot showing crowdworkers’ ROI annotation
+by selecting a class among the nine classes for each ROI.
+We defined the nine ROI classes as follows.
+• Heading/Title The title or caption of a page, chapter, etc.
+• Subtitle/Byline The secondary or subordinate title of a
+page or a line of text giving the author’s name.
+• Paragraph/Body The main text that would be read.
+• Picture The picture or image that contains no text or data.
+• Caption The text placed next an image, data, etc. that provides or explains information about an image or data.
+• List Typically bulleted lists, where each bullet is not a full
+sentence.
+• Data Tables, charts, graphs, infographic, or other figures
+with data or information.
+• Sub-data The text placed inside of the Data region.
+• Other Any other text that does not fit in the other categories
