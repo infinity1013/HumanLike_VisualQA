@@ -63,6 +63,11 @@ This is basic question answering from document but to get more accurate and robu
  <img src="https://user-images.githubusercontent.com/68748614/173341416-23da5e29-cc2d-4587-89cc-73935b0c1795.png" width="800" height="400" />
 <p>
 
+</br>
+<p align="center">
+<img src="https://user-images.githubusercontent.com/68748614/178040186-2f0a0f3b-4507-4671-85d5-2f6422a1222d.png" width="800" height="400" />
+<p>
+
 ### Reference Video
 https://drive.google.com/file/d/1rTV_O4HFIFnwIY-wRkIjPNF_FC5w6VOH/view?usp=sharing
 
